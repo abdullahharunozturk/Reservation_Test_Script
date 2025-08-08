@@ -1,0 +1,7 @@
+Dataset Size,Query Name,Result Count,Execution Time (ms),Total Spaces,Total Bookings,Spaces Collection Size (MB),Bookings Collection Size (MB),Documents Examined,Keys Examined
+2000,"Available Aug 14-28, 2025",485,458,2000,3723,0.36,0.39,659,659
+2000,"Available for 7-day period in Aug 2025",1608,478,2000,3723,0.36,0.39,2000,2000
+10000,"Available Aug 14-28, 2025",2452,643,10000,18475,1.8,1.95,3233,3233
+10000,"Available for 7-day period in Aug 2025",8020,1471,10000,18475,1.8,1.95,10000,10000
+100000,"Available Aug 14-28, 2025",25076,4278,100000,183474,18.02,19.36,33398,33398
+100000,"Available for 7-day period in Aug 2025",79622,13158,100000,183474,18.02,19.36,100000,100000

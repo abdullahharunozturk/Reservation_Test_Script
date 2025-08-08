@@ -1,0 +1,17 @@
+{
+  "name": "billboard-performance-test",
+  "version": "1.0.0",
+  "description": "MongoDB performance testing script for billboard reservations",
+  "main": "billboard_performance_test.js",
+  "scripts": {
+    "test": "node billboard_performance_test.js",
+    "start": "node billboard_performance_test.js"
+  },
+  "dependencies": {
+    "mongodb": "^6.0.0",
+    "dotenv": "^16.0.0"
+  },
+  "keywords": ["mongodb", "performance", "test", "billboard", "reservation"],
+  "author": "",
+  "license": "MIT"
+}

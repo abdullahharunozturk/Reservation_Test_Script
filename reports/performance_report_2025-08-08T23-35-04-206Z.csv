@@ -1,0 +1,7 @@
+Dataset Size,Query Name,Result Count,Execution Time (ms),Documents Examined,Documents Returned,Index Hits,Keys Examined
+2000,"Available Aug 14-28, 2025",457,488,643,0,643
+2000,"Available for 7-day period in Aug 2025",1605,654,2000,0,2000
+10000,"Available Aug 14-28, 2025",2447,677,3289,0,3289
+10000,"Available for 7-day period in Aug 2025",8043,1546,10000,0,10000
+100000,"Available Aug 14-28, 2025",25109,4620,33403,0,33403
+100000,"Available for 7-day period in Aug 2025",79961,13914,100000,0,100000
