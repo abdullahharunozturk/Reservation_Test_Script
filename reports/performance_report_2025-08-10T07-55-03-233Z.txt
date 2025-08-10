@@ -1,0 +1,123 @@
+MONGODB BILLBOARD PERFORMANCE TEST REPORT
+==================================================
+
+Dataset Size: 2,000 billboards
+Query: Available Aug 14-28, 2025
+Result Count: 482
+Execution Time: 810ms
+Total Spaces: 2,000
+Total Bookings: 3,807
+Spaces Collection Size: 0.36 MB
+Bookings Collection Size: 0.4 MB
+Documents Examined: 657
+Keys Examined: 657
+--------------------------------------------------
+
+Dataset Size: 2,000 billboards
+Query: Available for 7-day period in Aug 2025
+Result Count: 1,559
+Execution Time: 1088ms
+Total Spaces: 2,000
+Total Bookings: 3,807
+Spaces Collection Size: 0.36 MB
+Bookings Collection Size: 0.4 MB
+Documents Examined: 2,000
+Keys Examined: 2,000
+--------------------------------------------------
+
+Dataset Size: 2,000 billboards
+Query: Top 3 best 7-day periods in Aug 2025
+Result Count: 3
+Execution Time: 3799ms
+Total Spaces: 2,000
+Total Bookings: 3,807
+Spaces Collection Size: 0.36 MB
+Bookings Collection Size: 0.4 MB
+Documents Examined: 50,000
+Keys Examined: 25
+Top 3 Best Periods:
+  1. 4-10 Aug: 1595
+  2. 2-8 Aug: 1594
+  3. 1-7 Aug: 1593
+--------------------------------------------------
+
+Dataset Size: 10,000 billboards
+Query: Available Aug 14-28, 2025
+Result Count: 2,503
+Execution Time: 1732ms
+Total Spaces: 10,000
+Total Bookings: 18,541
+Spaces Collection Size: 1.8 MB
+Bookings Collection Size: 1.96 MB
+Documents Examined: 3,314
+Keys Examined: 3,314
+--------------------------------------------------
+
+Dataset Size: 10,000 billboards
+Query: Available for 7-day period in Aug 2025
+Result Count: 7,949
+Execution Time: 2448ms
+Total Spaces: 10,000
+Total Bookings: 18,541
+Spaces Collection Size: 1.8 MB
+Bookings Collection Size: 1.96 MB
+Documents Examined: 10,000
+Keys Examined: 10,000
+--------------------------------------------------
+
+Dataset Size: 10,000 billboards
+Query: Top 3 best 7-day periods in Aug 2025
+Result Count: 3
+Execution Time: 3822ms
+Total Spaces: 10,000
+Total Bookings: 18,541
+Spaces Collection Size: 1.8 MB
+Bookings Collection Size: 1.96 MB
+Documents Examined: 250,000
+Keys Examined: 25
+Top 3 Best Periods:
+  1. 15-21 Aug: 8033
+  2. 5-11 Aug: 8031
+  3. 19-25 Aug: 8030
+--------------------------------------------------
+
+Dataset Size: 100,000 billboards
+Query: Available Aug 14-28, 2025
+Result Count: 25,150
+Execution Time: 36098ms
+Total Spaces: 100,000
+Total Bookings: 182,526
+Spaces Collection Size: 18.02 MB
+Bookings Collection Size: 19.26 MB
+Documents Examined: 33,360
+Keys Examined: 33,360
+--------------------------------------------------
+
+Dataset Size: 100,000 billboards
+Query: Available for 7-day period in Aug 2025
+Result Count: 79,596
+Execution Time: 90467ms
+Total Spaces: 100,000
+Total Bookings: 182,526
+Spaces Collection Size: 18.02 MB
+Bookings Collection Size: 19.26 MB
+Documents Examined: 100,000
+Keys Examined: 100,000
+--------------------------------------------------
+
+Dataset Size: 100,000 billboards
+Query: Top 3 best 7-day periods in Aug 2025
+Result Count: 3
+Execution Time: 10617ms
+Total Spaces: 100,000
+Total Bookings: 182,526
+Spaces Collection Size: 18.02 MB
+Bookings Collection Size: 19.26 MB
+Documents Examined: 2,500,000
+Keys Examined: 25
+Top 3 Best Periods:
+  1. 10-16 Aug: 80474
+  2. 9-15 Aug: 80459
+  3. 8-14 Aug: 80457
+--------------------------------------------------
+

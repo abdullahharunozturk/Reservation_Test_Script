@@ -321,6 +321,112 @@ class BillboardPerformanceTest {
         };
     }
 
+    async runQuery3(datasetSize) {
+        console.log('\n=== Query 3: Top 3 best 7-day periods in Aug 2025 ===');
+        
+        const startTime = Date.now();
+        const results = [];
+        
+        // Generate all possible 7-day periods in August 2025
+        const periods = [];
+        for (let day = 1; day <= 25; day++) { // Up to 25th so we don't go beyond August
+            const periodStart = new Date(`2025-08-${day.toString().padStart(2, '0')}`);
+            const periodEnd = new Date(periodStart.getTime() + 6 * 24 * 60 * 60 * 1000); // +6 days
+            
+            if (periodEnd <= new Date('2025-08-31')) {
+                periods.push({
+                    start: periodStart,
+                    end: periodEnd,
+                    label: `${periodStart.getDate()}-${periodEnd.getDate()} Aug`
+                });
+            }
+        }
+
+        // Check availability for each period
+        console.log(`Checking ${periods.length} different 7-day periods...`);
+        
+        // Process periods in batches for better performance
+        const batchSize = 5;
+        for (let i = 0; i < periods.length; i += batchSize) {
+            const batch = periods.slice(i, i + batchSize);
+            const batchPromises = batch.map(async (period) => {
+                const conflictingIds = await this.db.collection(BOOKING_COLLECTION).distinct("advertisingSpaceId", {
+                    $or: [
+                        {
+                            startDate: { $lte: period.end },
+                            endDate: { $gte: period.start }
+                        }
+                    ]
+                });
+                
+                const availableCount = await this.db.collection(BILLBOARD_COLLECTION).countDocuments({
+                    status: "active",
+                    _id: { $nin: conflictingIds }
+                });
+                
+                return {
+                    period: period.label,
+                    startDate: period.start,
+                    endDate: period.end,
+                    availableCount
+                };
+            });
+            
+            const batchResults = await Promise.all(batchPromises);
+            results.push(...batchResults);
+        }
+        
+        // Sort by available count (descending) and take top 3
+        results.sort((a, b) => b.availableCount - a.availableCount);
+        const top3 = results.slice(0, 3);
+        
+        const endTime = Date.now();
+        const executionTime = endTime - startTime;
+        
+        console.log(`\nTop 3 best 7-day periods:`);
+        top3.forEach((result, index) => {
+            console.log(`${index + 1}. ${result.period}: ${result.availableCount.toLocaleString()} available billboards`);
+        });
+        console.log(`Execution time: ${executionTime}ms`);
+
+        // Get collection stats using admin command
+        const totalSpaces = await this.db.collection(BILLBOARD_COLLECTION).estimatedDocumentCount();
+        const totalBookings = await this.db.collection(BOOKING_COLLECTION).estimatedDocumentCount();
+        
+        // Get collection sizes using aggregation pipeline
+        let spacesCollectionSizeMB = 0;
+        let bookingsCollectionSizeMB = 0;
+        
+        try {
+            const spacesStats = await this.client.db(DB_NAME).command({collStats: BILLBOARD_COLLECTION});
+            spacesCollectionSizeMB = Math.round(spacesStats.size / (1024 * 1024) * 100) / 100;
+        } catch (error) {
+            // Fallback: estimate based on document count (rough estimate)
+            spacesCollectionSizeMB = Math.round(totalSpaces * 0.5 / 1024 * 100) / 100; // ~0.5KB per document estimate
+        }
+        
+        try {
+            const bookingsStats = await this.client.db(DB_NAME).command({collStats: BOOKING_COLLECTION});
+            bookingsCollectionSizeMB = Math.round(bookingsStats.size / (1024 * 1024) * 100) / 100;
+        } catch (error) {
+            // Fallback: estimate based on document count
+            bookingsCollectionSizeMB = Math.round(totalBookings * 0.2 / 1024 * 100) / 100; // ~0.2KB per document estimate
+        }
+
+        return {
+            queryName: 'Top 3 best 7-day periods in Aug 2025',
+            datasetSize,
+            resultCount: top3.length,
+            executionTime,
+            explainStats: { totalDocsExamined: periods.length * totalSpaces, totalKeysExamined: periods.length },
+            totalSpaces,
+            totalBookings,
+            spacesCollectionSizeMB,
+            bookingsCollectionSizeMB,
+            top3Results: top3.map(r => `${r.period}: ${r.availableCount}`)
+        };
+    }
+
     async runTestForDataset(size, isIncremental = false) {
         console.log(`\n${'='.repeat(60)}`);
         console.log(`TESTING WITH ${size.toLocaleString()} BILLBOARDS`);
@@ -343,8 +449,9 @@ class BillboardPerformanceTest {
         // Run queries
         const query1Result = await this.runQuery1(size);
         const query2Result = await this.runQuery2(size);
+        const query3Result = await this.runQuery3(size);
 
-        this.results.push(query1Result, query2Result);
+        this.results.push(query1Result, query2Result, query3Result);
 
         // Print summary
         console.log('\n--- Dataset Summary ---');
@@ -357,7 +464,7 @@ class BillboardPerformanceTest {
         console.log('PERFORMANCE TEST REPORT');
         console.log('='.repeat(80));
 
-        let csvContent = 'Dataset Size,Query Name,Result Count,Execution Time (ms),Total Spaces,Total Bookings,Spaces Collection Size (MB),Bookings Collection Size (MB),Documents Examined,Keys Examined\n';
+        let csvContent = 'Dataset Size,Query Name,Result Count,Execution Time (ms),Total Spaces,Total Bookings,Spaces Collection Size (MB),Bookings Collection Size (MB),Documents Examined,Keys Examined,Special Results\n';
         let txtReport = 'MONGODB BILLBOARD PERFORMANCE TEST REPORT\n';
         txtReport += '='.repeat(50) + '\n\n';
 
@@ -372,8 +479,14 @@ class BillboardPerformanceTest {
             console.log(`Bookings Collection Size: ${result.bookingsCollectionSizeMB || 'N/A'} MB`);
             console.log(`Documents Examined: ${result.explainStats.totalDocsExamined?.toLocaleString() || 'N/A'}`);
             console.log(`Index Keys Examined: ${result.explainStats.totalKeysExamined?.toLocaleString() || 'N/A'}`);
+            
+            // Show special results for Query 3
+            if (result.top3Results) {
+                console.log(`Top 3 periods: ${result.top3Results.join(' | ')}`);
+            }
 
-            csvContent += `${result.datasetSize},"${result.queryName}",${result.resultCount},${result.executionTime},${result.totalSpaces || 0},${result.totalBookings || 0},${result.spacesCollectionSizeMB || 0},${result.bookingsCollectionSizeMB || 0},${result.explainStats.totalDocsExamined || 0},${result.explainStats.totalKeysExamined || 0}\n`;
+            const specialResults = result.top3Results ? `"${result.top3Results.join(' | ')}"` : '';
+            csvContent += `${result.datasetSize},"${result.queryName}",${result.resultCount},${result.executionTime},${result.totalSpaces || 0},${result.totalBookings || 0},${result.spacesCollectionSizeMB || 0},${result.bookingsCollectionSizeMB || 0},${result.explainStats.totalDocsExamined || 0},${result.explainStats.totalKeysExamined || 0},${specialResults}\n`;
             
             txtReport += `Dataset Size: ${result.datasetSize.toLocaleString()} billboards\n`;
             txtReport += `Query: ${result.queryName}\n`;
@@ -385,6 +498,15 @@ class BillboardPerformanceTest {
             txtReport += `Bookings Collection Size: ${result.bookingsCollectionSizeMB || 'N/A'} MB\n`;
             txtReport += `Documents Examined: ${result.explainStats.totalDocsExamined?.toLocaleString() || 'N/A'}\n`;
             txtReport += `Keys Examined: ${result.explainStats.totalKeysExamined?.toLocaleString() || 'N/A'}\n`;
+            
+            // Add special results for Query 3
+            if (result.top3Results) {
+                txtReport += `Top 3 Best Periods:\n`;
+                result.top3Results.forEach((period, index) => {
+                    txtReport += `  ${index + 1}. ${period}\n`;
+                });
+            }
+            
             txtReport += '-'.repeat(50) + '\n\n';
         }
 

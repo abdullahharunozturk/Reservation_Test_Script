@@ -1,0 +1,10 @@
+Dataset Size,Query Name,Result Count,Execution Time (ms),Total Spaces,Total Bookings,Spaces Collection Size (MB),Bookings Collection Size (MB),Documents Examined,Keys Examined,Special Results
+2000,"Available Aug 14-28, 2025",490,1069,2000,3602,0.36,0.38,669,669,
+2000,"Available for 7-day period in Aug 2025",1606,1831,2000,3602,0.36,0.38,2000,2000,
+2000,"Top 3 best 7-day periods in Aug 2025",3,5184,2000,3602,0.36,0.38,50000,25,"6-12 Aug: 1630 | 11-17 Aug: 1629 | 7-13 Aug: 1626"
+10000,"Available Aug 14-28, 2025",2448,2440,10000,18261,1.8,1.93,3298,3298,
+10000,"Available for 7-day period in Aug 2025",7969,11714,10000,18261,1.8,1.93,10000,10000,
+10000,"Top 3 best 7-day periods in Aug 2025",3,5754,10000,18261,1.8,1.93,250000,25,"15-21 Aug: 8060 | 16-22 Aug: 8057 | 18-24 Aug: 8051"
+100000,"Available Aug 14-28, 2025",25070,29610,100000,183107,18.02,19.32,33400,33400,
+100000,"Available for 7-day period in Aug 2025",79736,116475,100000,183107,18.02,19.32,100000,100000,
+100000,"Top 3 best 7-day periods in Aug 2025",3,22049,100000,183107,18.02,19.32,2500000,25,"9-15 Aug: 80492 | 3-9 Aug: 80473 | 4-10 Aug: 80466"

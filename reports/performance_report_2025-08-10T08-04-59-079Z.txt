@@ -1,0 +1,75 @@
+MONGODB BILLBOARD PERFORMANCE TEST REPORT
+==================================================
+
+Dataset Size: 2,000 billboards
+Query: Available Aug 14-28, 2025
+Result Count: 491
+Execution Time: 467ms
+Total Spaces: 2,000
+Total Bookings: 3,753
+Spaces Collection Size: 0.36 MB
+Bookings Collection Size: 0.4 MB
+Documents Examined: 654
+Keys Examined: 654
+--------------------------------------------------
+
+Dataset Size: 2,000 billboards
+Query: Available for 7-day period in Aug 2025
+Result Count: 1,606
+Execution Time: 1069ms
+Total Spaces: 2,000
+Total Bookings: 3,753
+Spaces Collection Size: 0.36 MB
+Bookings Collection Size: 0.4 MB
+Documents Examined: 2,000
+Keys Examined: 2,000
+--------------------------------------------------
+
+Dataset Size: 10,000 billboards
+Query: Available Aug 14-28, 2025
+Result Count: 2,486
+Execution Time: 1857ms
+Total Spaces: 10,000
+Total Bookings: 18,623
+Spaces Collection Size: 1.8 MB
+Bookings Collection Size: 1.97 MB
+Documents Examined: 3,327
+Keys Examined: 3,327
+--------------------------------------------------
+
+Dataset Size: 10,000 billboards
+Query: Available for 7-day period in Aug 2025
+Result Count: 7,960
+Execution Time: 7587ms
+Total Spaces: 10,000
+Total Bookings: 18,623
+Spaces Collection Size: 1.8 MB
+Bookings Collection Size: 1.97 MB
+Documents Examined: 10,000
+Keys Examined: 10,000
+--------------------------------------------------
+
+Dataset Size: 100,000 billboards
+Query: Available Aug 14-28, 2025
+Result Count: 25,179
+Execution Time: 13914ms
+Total Spaces: 100,000
+Total Bookings: 183,477
+Spaces Collection Size: 18.02 MB
+Bookings Collection Size: 19.36 MB
+Documents Examined: 33,488
+Keys Examined: 33,488
+--------------------------------------------------
+
+Dataset Size: 100,000 billboards
+Query: Available for 7-day period in Aug 2025
+Result Count: 79,625
+Execution Time: 45519ms
+Total Spaces: 100,000
+Total Bookings: 183,477
+Spaces Collection Size: 18.02 MB
+Bookings Collection Size: 19.36 MB
+Documents Examined: 100,000
+Keys Examined: 100,000
+--------------------------------------------------
+
